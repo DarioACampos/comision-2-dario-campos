@@ -1,5 +1,5 @@
-import User from "../models/user.js"
-import bcrypt from "bcrypt";
+import  User  from "../models/userModel.js"
+import * as bcrypt from "bcrypt";
 import { createAccessToken } from "../utils/jwt.js"; 
 
 export const ctrlRegister = async (req, res) => {
@@ -24,6 +24,7 @@ export const ctrlRegister = async (req, res) => {
 
 export const ctrlLogin = async (req, res) => {
   const { email, password } = req.body;
+  console.log(email, password);
   try {
     const user = await User.findOne({ email });
     if (!user) {
@@ -31,11 +32,12 @@ export const ctrlLogin = async (req, res) => {
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      res.status(400).json({ error: 'Invalid credentials' });
+      return res.status(400).json({ error: 'Invalid credentials' });
     }
     const token = await createAccessToken({ id: user._id });
+
     res.cookie("token", token);
-    res.status(201).json({token, user, message: `Welcome ${user.username}!`});
+    return res.status(201).json({token, user, message: `Welcome ${user.username}!`});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

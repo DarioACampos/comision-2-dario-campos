@@ -25,6 +25,16 @@ const postSchema = new Schema({
         type: String,
         required: false,
       },
+      autor: {
+        type: Schema.Types.ObjectId,
+        trim: true,
+        required: true,
+        ref: "User"
+      },
+      comments: [{
+        type: Schema.Types.ObjectId,
+        ref: "Comment"
+      }], 
       createdAt: {
         type: Date,
         default: Date.now,
@@ -40,4 +50,4 @@ const postSchema = new Schema({
     }
   );
   
-  export default model('Post', postSchema)  
+  export default model("Post", postSchema)  
