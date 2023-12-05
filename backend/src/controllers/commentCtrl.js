@@ -23,8 +23,9 @@ export const ctrlCreateComments = async (req, res) => {
     }
 }
 export const ctrlGetAllComment = async (req, res) => {
+    // const userId = req.params.userId;
     try {
-        const allComment = await Comment.find();
+        const allComment = await Comment.findById();
         return res.status(201).json(allComment);
     } catch (error) {
         return res.status(500).json({ message: "Error no se encontraron los comentarios", error: error.message })
