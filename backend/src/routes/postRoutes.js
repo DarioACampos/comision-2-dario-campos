@@ -4,7 +4,7 @@ import { ctrlCreatePost, ctrlGetAllPost, ctrlDeletePost, ctrlUpdatePost, ctrlGet
 
 const postRouter = Router();
 
-postRouter.get("/posts", ctrlGetAllPost);
+postRouter.get("/", ctrlGetAllPost);
 postRouter.get("/:id", ctrlGetPost);
 postRouter.post("/post", authRequired, ctrlCreatePost);
 postRouter.delete("/:id", authRequired, ctrlDeletePost);

@@ -4,8 +4,8 @@ import { ctrlCreateComments, ctrlDeleteComment, ctrlGetAllComment, ctrlGetCommen
 
 const commentRouter = Router();
 
-commentRouter.get("/:id", ctrlGetComment)
-commentRouter.get("/", ctrlGetAllComment)
+commentRouter.get("/:id", ctrlGetComment);
+commentRouter.get("/", ctrlGetAllComment);
 commentRouter.post("/:id", authRequired, ctrlCreateComments);
 commentRouter.delete("/:id", authRequired, ctrlDeleteComment);
 commentRouter.put("/:id", authRequired, ctrlUpdateComment);

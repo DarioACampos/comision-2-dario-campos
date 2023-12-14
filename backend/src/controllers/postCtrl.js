@@ -1,19 +1,18 @@
 import Post from "../models/postModel.js";
 
 export const ctrlCreatePost = async (req, res) => {
-    const { title, description, comments, imageURL } = req.body;
-    
+    // console.log(req.body.description);
+    const { title, description, imageURL } = req.body;
     const userId = req.user.id;
-    console.log(userId);
     try {
         const newPost = new Post({
             title,
             description,
             autor: userId,
-            comments,
+            comments: [],
             imageURL
         });
-        console.log(newPost);
+        // console.log(newPost);
        const post = await newPost.save();
        return res.status(201).json({post, message: "post created successfuly"});
     } catch (error) {
@@ -24,7 +23,9 @@ export const ctrlCreatePost = async (req, res) => {
 export const ctrlGetAllPost = async (req, res) => {
 
     try {
-        const allPost = await Post.find();
+        const allPost = await Post.find()
+        .populate("autor", "email username avatarURL _id")
+        .populate("comments",  "autor description _id")
         return res.status(201).json(allPost);
     } catch (error) {
         return res.status(500).json({ message: "Error no se encontraron los posteos", error: error.message })
@@ -36,6 +37,8 @@ export const ctrlGetPost = async () => {
 
     try {
         const post = await Post.findById(postId)
+        .populate("autor", "email username avatarURL _id")
+        .populate("comment", "autor description _id");
         if (!post) {
             return res.status(404).json({ message: "Post no encontrado"});
         }

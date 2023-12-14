@@ -3,7 +3,7 @@ import * as bcrypt from "bcrypt";
 import { createAccessToken } from "../utils/jwt.js"; 
 
 export const ctrlRegister = async (req, res) => {
-  console.log( req.body );
+  // console.log( req.body );
   const { username, password, email, avatarURL } = req.body;
   try {
     const passwordHash = await bcrypt.hash(password, 10);
@@ -11,7 +11,7 @@ export const ctrlRegister = async (req, res) => {
       username,
       password: passwordHash,
       email,
-      avatarURL
+      avatarURL,
     });
     const user = await newUser.save()
     const token = await createAccessToken({ id: user._id });
@@ -24,7 +24,7 @@ export const ctrlRegister = async (req, res) => {
 
 export const ctrlLogin = async (req, res) => {
   const { email, password } = req.body;
-  console.log(email, password);
+  // console.log(email, password);
   try {
     const user = await User.findOne({ email });
     if (!user) {
@@ -49,8 +49,10 @@ export const crtlLogout = async(req, res) => {
 }
 
 export const ctrlProfile = async (req, res) => {
+
   try {
     const userFound = await User.findById(req.user.id);
+    console.log(userFound);
     if (!userFound)
       return res.status(400).json({ message: "User found" });
     res.json({
@@ -58,10 +60,19 @@ export const ctrlProfile = async (req, res) => {
       id: userFound.id,
       username: userFound.username,
       email: userFound.email,
-      createdAt: userFound.createdAt,
-      updateAt: userFound.updatedAt,
+      avatarURL: userFound.avatarURL,
     });
   } catch (error) {
-    res.status(500).json({ message: "Profile error", error });
+    res.status(500).json({ message: "Profile error", error: error.message });
   }
 };
+
+export const allUsers = async (req, res) => {
+  
+  try {
+    const users = await User.find()
+    res.status(201).json({users})
+  } catch (error) {
+    res.status(500).json({error: error.message})
+  }
+}
