@@ -20,10 +20,10 @@ export const createCommentValidations = [
 ];
 
 export const CommentValidations = [
-  param('playlistId')
-    .notEmpty().withMessage('El parametro { playListId } no debe estar vacio.')
-    .isString().withMessage('El parametro { playListId } debe ser un string.')
-    .custom(isValidObjectId).withMessage('El parametro { playListId } debe ser una id valida.'),
+  param('id')
+    .notEmpty().withMessage('El parametro { id } no debe estar vacio.')
+    .isString().withMessage('El parametro { id } debe ser un string.')
+    .custom(isValidObjectId).withMessage('El parametro { id } debe ser una id valida.'),
     authRequired,
 ];
 

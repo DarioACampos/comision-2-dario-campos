@@ -69,27 +69,26 @@ export const ctrlDeleteComment = async(req, res) => {
     }
 }
 
-//! corregir
-export const ctrlUpdateComment = async(req, res)=> {
-    const commentId = req.params.id;
-    console.log(commentId);
-    console.log(req.body);
-    const { comments } = req.body;
-    // Asegúrate de que "comments" sea un array de cadenas
-    const updateComment = await Post.findByIdAndUpdate(commentId)
-    console.log(updateComment);
+export const ctrlUpdateComment = async (req, res) => {
     try {
-        const updateComment = await Post.findByIdAndUpdate(commentId, {
-            _id,
-            comments: comments,
-        }, { new: true });
-        console.log(updateComment);
-        if (!updateComment) {
-            return res.status(404).json({ error: "Comentario no encontrado" });
-        }
-    
-        return res.status(201).json({ message: "Comentario actualizado con éxito", updateComment });
+      const commentId = req.params.id;
+      const { description } = req.body; // Supongo que deseas actualizar la descripción del comentario
+  
+      const updatedComment = await Comment.findByIdAndUpdate(
+        commentId,
+        { description },
+        { new: true }
+      );
+      if (!updatedComment) {
+        return res.status(404).json({ error: "Comentario no encontrado" });
+      }
+      return res.status(200).json({
+        message: "Comentario actualizado con éxito",
+        updatedComment,
+      });
     } catch (error) {
-        return res.status(500).json({ error: error.message, message: "Error al actualizar el comentario" });
+      return res
+        .status(500)
+        .json({ error: error.message, message: "Error al actualizar el comentario" });
     }
-}
+  };

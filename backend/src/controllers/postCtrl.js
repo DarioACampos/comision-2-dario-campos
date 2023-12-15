@@ -32,13 +32,13 @@ export const ctrlGetAllPost = async (req, res) => {
     }
 }
 
-export const ctrlGetPost = async () => {
+export const ctrlGetPost = async (req, res) => {
     const postId = req.params.id;
 
     try {
         const post = await Post.findById(postId)
-        .populate("autor", "email username avatarURL _id")
-        .populate("comment", "autor description _id");
+        // .populate("autor", "email username avatarURL _id")
+        // .populate("comment", "autor description _id");
         if (!post) {
             return res.status(404).json({ message: "Post no encontrado"});
         }
@@ -64,19 +64,19 @@ export const ctrlDeletePost = async(req, res) => {
 
 export const ctrlUpdatePost= async(req, res)=> {
     const postId = req.params.id;
-    const { title, comments, imageURL } = req.body;
+    const { title, description, imageURL } = req.body;
 
     try {
         const updatePost = await Post.findByIdAndUpdate(postId, {
             title,
-            comments,
+            description,
             imageURL,
         });
         if (!updatePost) {
             return res.status(404).json({ error: "Post no encontrado "}); 
         }
-        return re. status(201).json({ message: "Post actualizado con exito", updatePost });
+        return res.status(201).json({ message: "Post actualizado con exito", updatePost });
     }catch (error) {
-        return res.status(500).json({ error: error.message, message: "Error alactualizar el Post"});
+        return res.status(500).json({ error: error.message, message: "Error al actualizar el Post"});
     }
 }

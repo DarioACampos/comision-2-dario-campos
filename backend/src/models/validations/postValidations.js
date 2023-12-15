@@ -9,7 +9,7 @@ export const createPostValidations = [
       authRequired,
 ];
 
-export const getPlaylistValidations = [
+export const getPostValidations = [
     param('id')
       .notEmpty().withMessage('El parametro { id } no debe estar vacio.')
       .isString().withMessage('El parametro { id } debe ser un string.')
