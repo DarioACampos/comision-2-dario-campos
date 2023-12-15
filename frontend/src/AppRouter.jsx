@@ -1,30 +1,34 @@
-import { Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
-import RegisterForm from "./components/RegisterForm";
-import LoginForm from "./components/LoginForm";
-import NotFoundPage from "./pages/404Page";
-import PlaylistPage from "./pages/PlaylistPage";
-import PrivateRoutes from "./components/PrivateRoutes";
-import NewPlaylist from "./pages/NewPlaylist";
-import MusicPage from "./pages/MusicsPage";
+// import './App.css'
+import LoginForm from './components/LoginForm.jsx'
+import HomePage from './pages/HomePage.jsx'
+import { Route, Routes } from 'react-router-dom'
+import Page404 from './pages/Page404.jsx'
+import PrivateRoutes from "./components/PrivateRoutes.jsx"
+import LandingPage from './pages/LandingPage.jsx'
+import RegisterForm from './components/RegisterForm.jsx'
+import FormPost from './pages/FormPost.jsx'
+import Profile from './pages/Profile.jsx'
+import UpdatePost from './pages/UpdatePost.jsx'
 
 function AppRouter() {
   return (
     <Routes>
-      {/* Rutas Protegidas */}
-      <Route element={<PrivateRoutes />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/playlist" element={<PlaylistPage />} />
-        <Route path="/playlist/new" element={<NewPlaylist />} />
-        <Route path="/playlist/:playlistId" element={<MusicPage />} />
-      </Route>
-
-      {/* Rutas Públicas */}
-      <Route path="/login" element={<LoginForm />} />
-      <Route path="/register" element={<RegisterForm />} />
-
-      <Route path="*" element={<NotFoundPage />} />
-    </Routes>
-  );
+    {/* Rutas Protegidas */}
+    <Route element={<PrivateRoutes />}>
+      <Route path="/home" element={<HomePage />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/new" element={<FormPost />} />
+      <Route path="/update/:postId" element={<UpdatePost />} />
+      {/* <Route path="/playlist/:playlistId" element={<MusicPage />} /> */}
+      {/* <Route path="/music/:playlistId" element={<NewMusicPage />} /> */}
+    </Route>
+    {/* Rutas Públicas */}
+    <Route path='/' element={ <LandingPage />} />
+    <Route path="/login" element={<LoginForm />} />
+    <Route path="/register" element={<RegisterForm />} />
+    <Route path="*" element={<Page404 />} />
+  </Routes>
+  )
 }
+
 export default AppRouter;

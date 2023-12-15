@@ -1,80 +1,84 @@
-import styles from "../styles/AuthForm.module.css";
-
-import { useId, useRef } from "react";
+import { useRef } from "react";
 import { API_URL } from "../utils/consts";
 import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function LoginForm() {
   const ref = useRef(null);
-
-  const emailRef = useId();
-  const passwordRef = useId();
 
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formData = new FormData(e.target);
-
     const email = formData.get("email");
     const password = formData.get("password");
-
     const user = {
       email,
       password,
     };
 
-    const req = await fetch(`${API_URL}/auth/login`, {
+    const req = await fetch(`${API_URL}/user/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(user),
     });
-
-    if (req.status !== 200) {
+    if (req.status !== 201) {
       ref.current.reset();
       return alert("Error al iniciar sesión");
     }
 
     const res = await req.json();
-
     login(res);
-
     ref.current.reset();
-
-    navigate("/");
+    navigate("/home");
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit} ref={ref} className={styles.form}>
-        <div className={styles.inputGroup}>
-          <label htmlFor={emailRef}>Email:</label>
+    <div
+      className="w-100 d-flex justify-content-center align-items-center h-100"
+      style={{ minWidth: "100vw" }}>
+      <form onSubmit={handleSubmit} ref={ref}>
+        <h1 className="h3 mb-3 fw-normal">Please sign in</h1>
+        <div className="form-floating">
           <input
             type="email"
-            placeholder="my-email@email.com"
             name="email"
-            id={emailRef}
-          />
+            className="form-control"
+            id="floatingInput"
+            placeholder="name@example.com" />
+          <label htmlFor="floatingInput">Email address</label>
         </div>
-
-        <div className={styles.inputGroup}>
-          <label htmlFor={passwordRef}>Password:</label>
+        <div className="form-floating">
           <input
             type="password"
-            placeholder="*******"
+            className="form-control"
             name="password"
-            id={passwordRef}
-          />
+            id="floatingPassword"
+            placeholder="Password" />
+          <label htmlFor="floatingPassword">Password</label>
         </div>
-
-        <button>Login</button>
+          <div className="form-check text-start my-3">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            value="remember-me"
+            id="flexCheckDefault" />
+          <label className="form-check-label" htmlFor="flexCheckDefault">
+            Remember me
+          </label>
+        </div>
+        <button className="btn btn-primary w-100 py-2 mb-4" type="submit">
+          Sign in
+        </button>
+        <Link className="btn btn-primary w-100 py-2" to="/register">
+          Sign up
+        </Link>
+        <p className="mt-5 mb-3 text-body-secondary">&copy; 2017–2023</p>
       </form>
     </div>
   );

@@ -5,9 +5,8 @@ function NotFoundPage() {
     <div>
       <h1>404</h1>
       <p>Not found</p>
-
-      <Link to="/">Go to home</Link>
+      <Link to="/home">Go to home</Link>
     </div>
   );
-}
+};
 export default NotFoundPage;
