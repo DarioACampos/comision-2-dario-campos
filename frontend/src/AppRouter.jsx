@@ -2,13 +2,13 @@
 import LoginForm from './components/LoginForm.jsx'
 import HomePage from './pages/HomePage.jsx'
 import { Route, Routes } from 'react-router-dom'
-import Page404 from './pages/Page404.jsx'
 import PrivateRoutes from "./components/PrivateRoutes.jsx"
 import LandingPage from './pages/LandingPage.jsx'
 import RegisterForm from './components/RegisterForm.jsx'
 import FormPost from './pages/FormPost.jsx'
-import Profile from './pages/Profile.jsx'
+import Profile from './pages/ProfilePage.jsx'
 import UpdatePost from './pages/UpdatePost.jsx'
+import NotFoundPage from './pages/404Page.jsx'
 
 function AppRouter() {
   return (
@@ -26,7 +26,7 @@ function AppRouter() {
     <Route path='/' element={ <LandingPage />} />
     <Route path="/login" element={<LoginForm />} />
     <Route path="/register" element={<RegisterForm />} />
-    <Route path="*" element={<Page404 />} />
+    <Route path="*" element={<NotFoundPage />} />
   </Routes>
   )
 }
